@@ -30,8 +30,8 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
-          sudo systemctl stop VideoGameApi
-          sudo rm -rf /var/www/VideoGameApi
-          mkdir -p /var/www/VideoGameApi
-          rsync -avz ./publish/ /var/www/VideoGameApi/
-          sudo systemctl restart VideoGameApi
+          sudo systemctl stop Gaming.Api
+          sudo rm -rf /var/www/Gaming.Api
+          mkdir -p /var/www/Gaming.Api
+          rsync -avz ./publish/ /var/www/Gaming.Api/
+          sudo systemctl restart Gaming.Api
