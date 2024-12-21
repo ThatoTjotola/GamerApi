@@ -1,0 +1,150 @@
+# Build artifacts
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.log
+*.cache
+*.zip
+*.tar.gz
+*.build
+*.msi
+*.pyc
+*.pid
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio specific files
+.vscode/
+.vs/
+.vscode/*
+
+# Rider specific files
+.idea/
+.idea/*
+
+# macOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Compiled DLLs, EXEs, and dependencies
+*.dll
+*.exe
+*.so
+*.dylib
+*.class
+*.jar
+
+# Temporary files and caches
+*.swp
+*.lock
+*.tmp
+*.temp
+*.log
+*.diff
+*.patch
+*.rej
+
+# Visual Studio Code specific files
+.history/
+*.code-workspace
+
+# ASP.NET Core specifics
+appsettings.json
+appsettings.Development.json
+
+# Resharper files
+*.DotSettings.user
+
+# NCrunch
+.ncrunchsolution
+*.ncrunchproject
+*.ncrunch
+
+# Coverage files
+coverage/
+coverage.info
+lcov-report/
+
+# IDE-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.resharper
+
+# Publish output
+publish/
+
+# Azure DevOps related files
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+.TestResults/
+
+# NuGet Packages
+*.nupkg
+packages/
+.nuget/
+
+# Entity Framework Migrations
+*.designer.cs
+
+# Rider JetBrains specific files
+.idea/
+*.iml
+
+# C# Global files
+*.csproj.user
+*.csproj.FileListAbsolute.txt
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# DotNet user secrets
+secrets.json
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+
+# Static website files
+**/wwwroot/lib/
+
+# Node.js files (if using Node with C#)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Yarn files
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# IDE directories
+.idea/
+.vscode/
+*.code-workspace
+
+# JetBrains Rider files
+.idea/
+.idea_modules/
+*.iws
+*.iml
+*.ipr
+
+# Crash Reports
+crash.log
+error.log
