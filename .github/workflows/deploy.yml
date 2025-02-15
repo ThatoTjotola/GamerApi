@@ -1,4 +1,4 @@
-name: Deploy API to Raspberry Pi
+name: Deploy to Raspberry Pi
 
 on:
   push:
@@ -10,32 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0.406'
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.486'
 
-      - name: Publish .NET API
-        run: dotnet publish -c Release -o publish
+    - name: Publish .NET app
+      run: |
+        dotnet publish -c Release -o publish
 
-      - name: Deploy via SSH
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "publish/*"
-          target: "/var/www/myapi"
+    - name: Install sshpass (if not installed)
+      run: sudo apt-get install -y sshpass
 
-      - name: Restart API
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/myapi
-            nohup dotnet Gaming.Api.dll > output.log 2>&1 &
+    - name: Deploy to Raspberry Pi with password
+      run: |
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r publish/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
+    
+    - name: Restart API on Raspberry Pi with password
+      run: |
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ${{ secrets.DEPLOY_DIR }} && nohup dotnet Gaming.Api.dll > output.log 2>&1 &'
