@@ -11,13 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gaming.Infrastructure", "Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gaming.Api", "Gaming.Api\Gaming.Api.csproj", "{88AC34F9-E44C-4C8E-9E7D-17CF0424C279}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerApi.Tests", "GamerApi.Tests\GamerApi.Tests.csproj", "{AD5DFC76-CF38-4417-B4EA-90923AA1DA97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F9907AD8-3704-47CD-A324-B2E138DE45D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +35,12 @@ Global
 		{88AC34F9-E44C-4C8E-9E7D-17CF0424C279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88AC34F9-E44C-4C8E-9E7D-17CF0424C279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88AC34F9-E44C-4C8E-9E7D-17CF0424C279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5DFC76-CF38-4417-B4EA-90923AA1DA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5DFC76-CF38-4417-B4EA-90923AA1DA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5DFC76-CF38-4417-B4EA-90923AA1DA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5DFC76-CF38-4417-B4EA-90923AA1DA97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

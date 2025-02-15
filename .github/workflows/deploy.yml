@@ -1,4 +1,4 @@
-name: Deploy to On-Prem Server
+name: Deploy API to Raspberry Pi
 
 on:
   push:
@@ -10,28 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.406'
 
-    - name: Build and Publish
-      run: |
-        dotnet restore
-        dotnet publish -c Release -o ./publish
+      - name: Publish .NET API
+        run: dotnet publish -c Release -o publish
 
-    - name: Deploy to Linux Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USER }}
-        password: ${{ secrets.SERVER_PASSWORD }}
-        script: |
-          sudo systemctl stop Gaming.Api
-          sudo rm -rf /var/www/Gaming.Api
-          mkdir -p /var/www/Gaming.Api
-          rsync -avz ./publish/ /var/www/Gaming.Api/
-          sudo systemctl restart Gaming.Api
+      - name: Deploy via SSH
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "publish/*"
+          target: "/var/www/myapi"
+
+      - name: Restart API
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/myapi
+            nohup dotnet Gaming.Api.dll > output.log 2>&1 &
