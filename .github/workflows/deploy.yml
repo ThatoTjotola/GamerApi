@@ -29,7 +29,7 @@ jobs:
           username: tjotola
           key: ${{ secrets.PI_SSH_KEY }}
           source: "publish/*"
-          target: "/home/pi/app"
+          target: "/home/pi/app/publish"
           debug: true  # Enable debug logging
 
       - name: Restart Application on Raspberry Pi
@@ -40,6 +40,30 @@ jobs:
           username: tjotola
           key: ${{ secrets.PI_SSH_KEY }}
           script: |
-            sudo mkdir -p /home/pi/app
-            pkill -f "dotnet /home/pi/app/publish/Gaming.Api.dll" || true
+            sudo mkdir -p /home/pi/app/publish
+            cd /home/pi/app/publish
+
+            # Ensure previous instance is properly stopped
+            PID=$(pgrep -f "dotnet /home/pi/app/publish/Gaming.Api.dll")
+            if [ ! -z "$PID" ]; then
+              echo "Stopping existing process $PID"
+              kill -9 $PID
+            fi
+            
+            # Ensure old logs don't interfere
+            rm -f /home/pi/app/logs.txt
+
+            # Start new process
+            echo "Starting application..."
             nohup dotnet /home/pi/app/publish/Gaming.Api.dll > /home/pi/app/logs.txt 2>&1 &
+
+            # Check if the app started correctly
+            sleep 5
+            if pgrep -f "dotnet /home/pi/app/publish/Gaming.Api.dll" > /dev/null
+            then
+                echo "Application started successfully"
+            else
+                echo "Application failed to start" >&2
+                exit 1
+            fi
+
