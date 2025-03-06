@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Gaming.Infrastructure\Gaming.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
