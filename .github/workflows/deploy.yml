@@ -24,8 +24,9 @@ jobs:
       - name: Copy Files to Raspberry Pi
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: 192.168.5.198 
-          username: tjotola  
+          host: 7.tcp.eu.ngrok.io
+          port: 18816
+          username: tjotola
           key: ${{ secrets.PI_SSH_KEY }}
           source: "publish/*"
           target: "/home/pi/app"
@@ -33,9 +34,11 @@ jobs:
       - name: Restart Application on Raspberry Pi
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: 192.168.5.198  
+          host: 7.tcp.eu.ngrok.io
+          port: 18816
           username: tjotola
           key: ${{ secrets.PI_SSH_KEY }}
           script: |
             pkill -f "dotnet /home/pi/app/GamingAPI.dll" || true
             nohup dotnet /home/pi/app/GamingAPI.dll > /home/pi/app/logs.txt 2>&1 &
+
