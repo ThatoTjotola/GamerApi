@@ -40,9 +40,6 @@ jobs:
           username: tjotola
           key: ${{ secrets.PI_SSH_KEY }}
           script: |
-            sudo mkdir -p /home/pi/app 
-            pkill -f "dotnet /home/pi/app/Gaming.Api.dll" || true
-            nohup dotnet /home/pi/app/Gaming.Api.dll > /home/pi/app/logs.txt 2>&1 &
-
-
-
+            sudo mkdir -p /home/pi/app
+            pkill -f "dotnet /home/pi/app/publish/Gaming.Api.dll" || true
+            nohup dotnet /home/pi/app/publish/Gaming.Api.dll > /home/pi/app/logs.txt 2>&1 &
