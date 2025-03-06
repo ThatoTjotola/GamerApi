@@ -3,32 +3,39 @@ name: Deploy to Raspberry Pi
 on:
   push:
     branches:
-      - main
+      - main  # Change to your main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.406'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.486'  # Change to your .NET version
 
-    - name: Publish .NET app
-      run: |
-        dotnet publish -c Release -o publish
+      - name: Publish .NET App
+        run: dotnet publish -c Release -o publish
 
-    - name: Install sshpass (if not installed)
-      run: sudo apt-get install -y sshpass
+      - name: Copy Files to Raspberry Pi
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 192.168.5.198 
+          username: tjotola  
+          key: ${{ secrets.PI_SSH_KEY }}
+          source: "publish/*"
+          target: "/home/pi/app"
 
-    - name: Deploy to Raspberry Pi with password
-      run: |
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r publish/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
-    
-    - name: Restart API on Raspberry Pi with password
-      run: |
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ${{ secrets.DEPLOY_DIR }} && nohup dotnet Gaming.Api.dll > output.log 2>&1 &'
+      - name: Restart Application on Raspberry Pi
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: 192.168.5.198  
+          username: tjotola
+          key: ${{ secrets.PI_SSH_KEY }}
+          script: |
+            pkill -f "dotnet /home/pi/app/GamingAPI.dll" || true
+            nohup dotnet /home/pi/app/GamingAPI.dll > /home/pi/app/logs.txt 2>&1 &
